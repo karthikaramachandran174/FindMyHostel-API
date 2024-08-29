@@ -42,7 +42,7 @@ router.post('/adduser', async (req, res) => {
 });
 router.put('/updateuser/:id', async (req, res) => {
   const { id } = req.params;
-  const { name, role, status, password } = req.body;
+  const { name, role, status } = req.body;
 
   try {
       const user = await User.findById(id);
@@ -54,10 +54,6 @@ router.put('/updateuser/:id', async (req, res) => {
       user.name = name || user.name;
       user.role = role || user.role;
       user.status = status || user.status;
-
-      if (password) {
-          user.password = await bcrypt.hash(password, 10);
-      }
 
       await user.save();
 
@@ -136,7 +132,7 @@ router.post('/newbills', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-router.put('/bills/:id', async (req, res) => {
+router.put('/updatebills/:id', async (req, res) => {
   try {
     const { amount, dueDate, status, userId, billType } = req.body;
     const { id } = req.params;
@@ -157,7 +153,7 @@ router.put('/bills/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-router.delete('/bills/:id', async (req, res) => {
+router.delete('/deletebills/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
